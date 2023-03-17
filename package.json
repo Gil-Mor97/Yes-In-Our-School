@@ -1,5 +1,6 @@
 {
   "name": "material-cra-ts",
+  "proxy": "https://firebasestorage.googleapis.com",
   "version": "5.0.0",
   "private": true,
   "dependencies": {
@@ -9,6 +10,7 @@
     "@mui/material": "^5.11.13",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/react-router-dom": "^5.3.3",
     "dotenv": "^16.0.3",
     "env-cmd": "^10.1.0",
     "firebase": "^9.18.0",
