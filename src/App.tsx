@@ -2,7 +2,8 @@ import Dashboard from "./Dashboard/Dashboard";
 import { doc, setDoc } from "firebase/firestore";
 import db from "./data/Db";
 import React, { useEffect } from "react";
-import uuid from 'react-uuid';
+import uuid from "react-uuid";
+import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 const addToDb = async () => {
   // Add a second document with a generated ID.
@@ -17,10 +18,23 @@ const addToDb = async () => {
   }
 };
 
-export default function App() {
+
+function AppRouter() {
   useEffect(() => {
-    // Update the document title using the browser API
-    addToDb();
+    // // addToDb();
   });
-  return <Dashboard></Dashboard>;
+  return (
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/democratic-content" element={<Dashboard />} />
+          <Route path="/schools" element={<Dashboard />} />
+          <Route path="/report-injustice" element={<Dashboard />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
+
+export default AppRouter;
