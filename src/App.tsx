@@ -13,6 +13,7 @@ import { AuthProvider } from "./provider/AuthProvider";
 import Login from "./components/auth/Login";
 import { AuthContext } from "./context/AuthContext";
 import ResponsiveNavbar from "./components/ResponsiveNabvar";
+import ReportInjustice from "./Dashboard/components/ReportInjustice";
 
 const addToDb = async () => {
   // Add a second document with a generated ID.
@@ -65,7 +66,7 @@ function AppRouter() {
                 path="/report-injustice"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <ReportInjustice />
                   </RequireAuth>
                 }
               />

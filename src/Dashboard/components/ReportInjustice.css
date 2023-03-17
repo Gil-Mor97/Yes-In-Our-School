@@ -2,11 +2,7 @@
   border: 2px solid red;
   height: 100dvh;
   width: 100%;
-<<<<<<< HEAD
   /* direction: rtl; */
-=======
-  direction: rtl;
->>>>>>> f2fece9 (most of ReportInjustice UI's frame, more css and submission to come)
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
@@ -27,7 +23,6 @@
   padding: 0 0.2rem;
 }
 .select-city-school > * > *,
-<<<<<<< HEAD
 .content > * > * {
   margin: 0.2rem 0;
 }
@@ -40,21 +35,6 @@
   display: flex;
   flex-flow: column nowrap;
 }
-=======
-.teacher-details > * > *,
-.content > * > * {
-  margin: 0.2rem 0;
-}
-
-.content {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-flow: column nowrap;
-}
-.text-field-content {
-  height: 20rem;
-}
->>>>>>> f2fece9 (most of ReportInjustice UI's frame, more css and submission to come)
 
 .submit {
   display: flex;
