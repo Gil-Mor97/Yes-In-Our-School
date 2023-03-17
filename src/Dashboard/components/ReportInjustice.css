@@ -2,7 +2,7 @@
   border: 2px solid red;
   height: 100dvh;
   width: 100%;
-  direction: rtl;
+  /* direction: rtl; */
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
@@ -23,18 +23,17 @@
   padding: 0 0.2rem;
 }
 .select-city-school > * > *,
-.teacher-details > * > *,
 .content > * > * {
   margin: 0.2rem 0;
 }
+.teacher-details > * > * {
+  margin: 0.4rem 0;
+}
 
 .content {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   display: flex;
   flex-flow: column nowrap;
-}
-.text-field-content {
-  height: 20rem;
 }
 
 .submit {

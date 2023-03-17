@@ -23,7 +23,7 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 
-//hehe
+// [1,2,2,3].unique() = [1,2,3]
 declare global {
   interface Array<T> {
     unique(): Array<T>;
@@ -31,6 +31,23 @@ declare global {
 }
 Array.prototype.unique = function () {
   return Array.from(new Set(this));
+};
+
+//begone, inline hebrew!
+const localization = {
+  no_schools_found: "לא נמצאו מוסדות במאגר!",
+  city: "עיר",
+  school: "מוסד",
+  no_city_selected: "אנא בחרו עיר קודם!",
+  prelude_title: "פרטי המוסד ועובד ההוראה",
+  name_of_school_worker: "שם עובד ההוראה",
+  title: "דיווח",
+  phone_of_school_worker_label: "מספר טלפון של עובד ההוראה",
+  email_of_school_worker_label: 'כתובת הדוא"ל של עובד ההוראה',
+  date_of_occurrence_label: "תאריך התקרית",
+  content_of_occurrence_label: "פרטי התקרית",
+  report_button: "דיווח",
+  report_anon_button: "דיווח באנונימיות",
 };
 
 function CityAndSchool(props: { cities: readonly string[] }) {
@@ -44,7 +61,7 @@ function CityAndSchool(props: { cities: readonly string[] }) {
     setSchools(
       schools.length > 0
         ? schools.map((school) => school.data().NAME).unique()
-        : ["לא נמצאו בתי ספר במאגר!"]
+        : [localization.no_schools_found]
     );
   }
 
@@ -71,7 +88,9 @@ function CityAndSchool(props: { cities: readonly string[] }) {
         <Autocomplete
           freeSolo
           options={props.cities}
-          renderInput={(params) => <TextField {...params} label="עיר" />}
+          renderInput={(params) => (
+            <TextField {...params} label={localization.city} />
+          )}
           onChange={changeCity}
         />
       </FormControl>
@@ -83,7 +102,11 @@ function CityAndSchool(props: { cities: readonly string[] }) {
           renderInput={(params) => (
             <TextField
               {...params}
-              label={selectedSchool.city ? "בית ספר" : "אנא בחרו עיר קודם!"}
+              label={
+                selectedSchool.city
+                  ? localization.school
+                  : localization.no_city_selected
+              }
             />
           )}
           onChange={changeSchool}
@@ -95,7 +118,6 @@ function CityAndSchool(props: { cities: readonly string[] }) {
 
 function PhoneNumberInput(props: {
   label: string;
-  helperText: string;
   icon: JSX.Element;
   variant?: "standard" | "filled" | "outlined" | undefined;
 }) {
@@ -115,7 +137,6 @@ function PhoneNumberInput(props: {
     <TextField
       error={invalidPhoneNumber}
       label={props.label}
-      helperText={props.helperText}
       variant={props.variant}
       id="phone-number"
       onChange={handleInput}
@@ -132,7 +153,7 @@ function PhoneNumberInput(props: {
 }
 
 function EmailInput(props: {
-  helperText: string;
+  state: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
   label: string;
   icon: JSX.Element;
   variant?: "standard" | "filled" | "outlined" | undefined;
@@ -153,7 +174,6 @@ function EmailInput(props: {
   return (
     <TextField
       label={props.label}
-      helperText={props.helperText}
       error={invalidEmail}
       variant={props.variant}
       id="email"
@@ -191,35 +211,22 @@ function DateContentInput(props: {
         label={props.contentLabel}
         minRows={5}
         maxRows={15}
-      ></TextField>
+      />
     </div>
   );
 }
-function TeacherDetails(props: {
-  phoneHelperText: string;
-  phoneLabel: string;
-  emailHelperText: string;
-  emailLabel: string;
-}) {
+function TeacherDetails(props: { phoneLabel: string; emailLabel: string }) {
   return (
     <FormGroup className="teacher-details">
       <FormControl className="teacher-name">
-        <TextField label="שם עובד ההוראה" />{" "}
+        <TextField label={localization.name_of_school_worker} />{" "}
         {/* replace with autocomplete when we have more data */}
       </FormControl>
       <FormControl className="teacher-phone-number">
-        <PhoneNumberInput
-          label={props.phoneLabel}
-          helperText={props.phoneHelperText}
-          icon={<ContactPhone />}
-        />
+        <PhoneNumberInput label={props.phoneLabel} icon={<ContactPhone />} />
       </FormControl>
       <FormControl className="teacher-email">
-        <EmailInput
-          helperText={props.emailHelperText}
-          label={props.emailLabel}
-          icon={<AlternateEmail />}
-        />
+        <EmailInput label={props.emailLabel} icon={<AlternateEmail />} />
       </FormControl>
     </FormGroup>
   );
@@ -241,20 +248,20 @@ export default function ReportInjustice() {
   const [expandPrelude, setExpandPrelude] = useState(true);
   function submit(anon: boolean = false) {
     anon ? console.log("submitted anonymously!") : console.log("submitted!");
-    // const payload = {
-    //   city: "",
-    //   school: "",
-    //   schoolWorkerName: "",
-    //   schoolWorkerPhone: "",
-    //   schoolWorkerEmail: "",
-    //   dateOfOccurence: new Date(),
-    //   occurrenceContent: "",
-    // };
+    const payload = {
+      city: "",
+      school: "",
+      schoolWorkerName: "",
+      schoolWorkerPhone: "",
+      schoolWorkerEmail: "",
+      dateOfOccurence: new Date(),
+      occurrenceContent: "",
+    };
   }
 
   return (
     <div className="report-injustice">
-      <span>PLACEHOLDER</span>
+      <span>{localization.title}</span>
       <form>
         <div className="prelude">
           <Card>
@@ -264,15 +271,13 @@ export default function ReportInjustice() {
               onClick={() => setExpandPrelude(!expandPrelude)}
             >
               {expandPrelude ? <ExpandLess /> : <ExpandMore />}
-              פרטי בית הספר ועובד ההוראה
+              {localization.prelude_title}
             </Typography>
             <Collapse in={expandPrelude}>
               <CityAndSchool cities={cities} />
               <TeacherDetails
-                phoneLabel="PLACEHOLDER"
-                phoneHelperText="PLACEHOLDER"
-                emailLabel="PLACEHOLDER"
-                emailHelperText="PLACEHOLDER"
+                phoneLabel={localization.phone_of_school_worker_label}
+                emailLabel={localization.email_of_school_worker_label}
               />
             </Collapse>
           </Card>
@@ -281,20 +286,20 @@ export default function ReportInjustice() {
         <DateContentInput
           setExpandPreludeRef={setExpandPrelude}
           containerClassName="content"
-          dateLabel="PLACEHOLDER"
-          contentLabel="PLACEHOLDER"
+          dateLabel={localization.date_of_occurrence_label}
+          contentLabel={localization.content_of_occurrence_label}
         />
       </form>
       <div className="submit">
         <Button color="primary" variant="outlined" onClick={() => submit()}>
-          דיווח
+          {localization.report_button}
         </Button>
         <Button
           color="secondary"
           variant="outlined"
           onClick={() => submit(true)}
         >
-          דיווח באנונימיות
+          {localization.report_anon_button}
         </Button>
       </div>
     </div>
