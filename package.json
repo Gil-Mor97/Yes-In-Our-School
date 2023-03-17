@@ -1,6 +1,5 @@
 {
   "name": "material-cra-ts",
-  "proxy": "https://firebasestorage.googleapis.com",
   "version": "5.0.0",
   "private": true,
   "dependencies": {
@@ -21,9 +20,7 @@
     "react-dom": "latest",
     "react-router-dom": "^6.9.0",
     "react-scripts": "latest",
-    "react-uuid": "^2.0.0",
-    "typescript": "latest",
-    "uuid": "^9.0.0"
+    "typescript": "latest"
   },
   "scripts": {
     "start": "env-cmd -f .env react-scripts start",
