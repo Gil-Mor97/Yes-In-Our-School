@@ -1,28 +1,26 @@
-import * as React from 'react';
-import Dashboard from './Dashboard/Dashboard'
-import { collection, addDoc } from "firebase/firestore"; 
-import db from './data/Firebase';
-
+import Dashboard from "./Dashboard/Dashboard";
+import { doc, setDoc } from "firebase/firestore";
+import db from "./data/Db";
+import React, { useEffect } from "react";
+import uuid from 'react-uuid';
 
 const addToDb = async () => {
   // Add a second document with a generated ID.
-  db.app.collection("users").add({
-    first: "Alan",
-    middle: "Mathison",
-    last: "Turing",
-    born: 1912
-  })
-  .then((docRef: any) => {
-    console.log("Document written with ID: ", docRef.id);
-  })
-  .catch((error: any) => {
-    console.error("Error adding document: ", error);
-  });
-}
+  // const citiesRef = collection(db, "ngos");
+  try {
+    const value = "test2";
+    const docRef = doc(db, "todo2", uuid());
+    await setDoc(docRef, { value });
+    alert(`Item ${value} added!`);
+  } catch (error) {
+    alert(error);
+  }
+};
 
 export default function App() {
-
-  return (
-    <Dashboard></Dashboard>
-  );
+  useEffect(() => {
+    // Update the document title using the browser API
+    addToDb();
+  });
+  return <Dashboard></Dashboard>;
 }

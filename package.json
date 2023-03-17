@@ -9,15 +9,19 @@
     "@mui/material": "^5.11.13",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "firebase": "^9.17.2",
+    "dotenv": "^16.0.3",
+    "env-cmd": "^10.1.0",
+    "firebase": "^9.18.0",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "^6.9.0",
     "react-scripts": "latest",
-    "typescript": "latest"
+    "react-uuid": "^2.0.0",
+    "typescript": "latest",
+    "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f .env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
