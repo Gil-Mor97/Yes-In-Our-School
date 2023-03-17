@@ -4,6 +4,7 @@ import db from "./data/Db";
 import React, { useEffect } from "react";
 import uuid from "react-uuid";
 import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
+import ReportInjustice from "./Dashboard/components/ReportInjustice";
 
 const addToDb = async () => {
   // Add a second document with a generated ID.
@@ -30,7 +31,7 @@ function AppRouter() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/democratic-content" element={<Dashboard />} />
           <Route path="/schools" element={<Dashboard />} />
-          <Route path="/report-injustice" element={<Dashboard />} />
+          <Route path="/report-injustice" element={<ReportInjustice />} />
         </Routes>
       </div>
     </Router>

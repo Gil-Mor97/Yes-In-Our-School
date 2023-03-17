@@ -1,0 +1,44 @@
+.report-injustice {
+  border: 2px solid red;
+  height: 100dvh;
+  width: 100%;
+  direction: rtl;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  justify-content: space-around;
+}
+
+.prelude {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.prelude svg {
+  vertical-align: middle;
+}
+
+.select-city-school,
+.teacher-details {
+  padding: 0 0.2rem;
+}
+.select-city-school > * > *,
+.teacher-details > * > *,
+.content > * > * {
+  margin: 0.2rem 0;
+}
+
+.content {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.text-field-content {
+  height: 20rem;
+}
+
+.submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
