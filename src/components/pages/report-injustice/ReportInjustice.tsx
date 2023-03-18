@@ -22,6 +22,8 @@ import { localization } from "./util";
 import CityAndSchool from "./CityAndSchool";
 import TeacherDetails from "./TeacherDetails";
 import DateContentInput from "./DateAndContent";
+import { CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 
 export default function ReportInjustice() {
   //init
@@ -195,9 +197,19 @@ export default function ReportInjustice() {
           </div>
         </Card>
       ) : (
-        <span className="loading">
-          <ScaleLoader />
-        </span>
+        <Box
+          sx={{
+            height: "100%",
+            minHeight: "500px",
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
       )}
     </div>
   );
