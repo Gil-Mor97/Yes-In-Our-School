@@ -121,7 +121,7 @@ export default function ReportInjustice() {
     <div className="report-injustice-container">
       {ready ? (
         <Card className="report-injustice">
-          <span>{localization.title}</span>
+          <h2>{localization.title}</h2>
           <form>
             <div className="prelude">
               <Card>
