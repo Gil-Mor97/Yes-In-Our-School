@@ -15,16 +15,26 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { auth } from "../../data/Db";
 import { AuthContext } from "../../context/AuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Alert, AlertTitle, Snackbar } from "@mui/material";
 
 const theme = createTheme();
+
+const errorDictionary = {
+  "auth/wrong-password": "אימייל או סיסמה שגויים",
+  "auth/user-not-found": "אימייל אינו קיים במערכת.",
+  "auth/too-many-requests":
+    "חשבונך נחסם עקב נסיונות כניסה מרובים ללא הצלחה. נא לאפס סיסמה או לנסות להתחבר מאוחר יותר.",
+};
 
 export default function SignIn() {
   const signIn = async (email, password) => {
     setLoading(true);
     try {
       await auth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      setError(errorDictionary[error.code] ?? error.message);
+      setOpen(true);
     }
     setLoading(false);
   };
@@ -32,10 +42,24 @@ export default function SignIn() {
   const signOut = async () => {
     await auth.signOut();
   };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const user = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,6 +87,21 @@ export default function SignIn() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <Snackbar
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          // sx={{ height: "100%" }}
+        >
+          <Alert severity="error" sx={{ width: "100%", dir: "rtl" }}>
+            <AlertTitle>שגיאה</AlertTitle>
+            {error}
+          </Alert>
+        </Snackbar>
         {!loading && (
           <Box
             sx={{
@@ -136,12 +175,13 @@ export default function SignIn() {
         {loading && (
           <Box
             sx={{
+              height: "100%",
+              minHeight: "500px",
               marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              height: "100%",
             }}
           >
             <CircularProgress />

@@ -22,7 +22,6 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 import ICity from "../../../types/icity.types";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import { db } from "../../../data/Db";
 
 // [1,2,2,3].unique() = [1,2,3]
