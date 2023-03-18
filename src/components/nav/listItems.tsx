@@ -8,34 +8,56 @@ import PeopleIcon from "@mui/icons-material/People";
 import SchoolIcon from "@mui/icons-material/School";
 import TocIcon from "@mui/icons-material/Toc";
 import { Link } from "react-router-dom";
+import mdTheme from "../../theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import "./listitems.css";
 
 export const mainListItems = (
-  <React.Fragment>
-    <ListItemButton component={Link} to="/">
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="דף הבית" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/report-injustice">
-      <ListItemIcon>
-        <ReportIcon />
-      </ListItemIcon>
-      <ListItemText primary="דיווח על פגיעה במורה" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/democratic-content">
-      <ListItemIcon>
-        <TocIcon />
-      </ListItemIcon>
-      <ListItemText primary="תוכן דמוקרטי" />
-    </ListItemButton>
-    <ListItemButton component={Link} to="/schools">
-      <ListItemIcon>
-        <SchoolIcon />
-      </ListItemIcon>
-      <ListItemText primary="בתי ספר" />
-    </ListItemButton>
-  </React.Fragment>
+  <ThemeProvider theme={mdTheme}>
+    <CssBaseline />
+    <React.Fragment>
+      <ListItemButton component={Link} to="/">
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText sx={{ textAlign: "right" }} primary="דף הבית" />
+      </ListItemButton>
+      <ListItemButton component={Link} to="/report-injustice">
+        <ListItemIcon>
+          <ReportIcon />
+        </ListItemIcon>
+        <ListItemText
+          sx={{ textAlign: "right" }}
+          primary="דיווח על תקרית בביה''ס"
+        />
+      </ListItemButton>
+      <ListItemButton component={Link} to="/democratic-content">
+        <ListItemIcon>
+          <TocIcon />
+        </ListItemIcon>
+        <ListItemText
+          sx={{ textAlign: "right" }}
+          primary="חיפוש תכנים דמוקרטיים"
+        />
+      </ListItemButton>
+      <ListItemButton component={Link} to="/schools">
+        <ListItemIcon>
+          <SchoolIcon />
+        </ListItemIcon>
+        <ListItemText sx={{ textAlign: "right" }} primary="קבוצת הורים" />
+      </ListItemButton>
+      <ListItemButton component={Link} to="/schools">
+        <ListItemIcon>
+          <SchoolIcon />
+        </ListItemIcon>
+        <ListItemText
+          sx={{ textAlign: "right" }}
+          primary="חיפוש מידע על עמותות"
+        />
+      </ListItemButton>
+    </React.Fragment>
+  </ThemeProvider>
 );
 
 export const secondaryListItems = (
