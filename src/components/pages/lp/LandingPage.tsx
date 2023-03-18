@@ -35,7 +35,7 @@ function DashboardContent() {
             <Card>
               <CardMedia
                 component="img"
-                height={"fit-content"}
+                sx={{ height: "fit-content", maxHeight: "300px" }}
                 image="/landing-page-image.png"
               />
               <Typography variant="h5" sx={{ textAlign: "center" }}>
