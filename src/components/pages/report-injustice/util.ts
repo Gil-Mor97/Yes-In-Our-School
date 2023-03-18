@@ -16,4 +16,16 @@ const localization =  {
     report_anon_button: "דיווח באנונימיות",
   };
 
-export default localization;
+// [1,2,2,3].unique() = [1,2,3]
+declare global {
+  interface Array<T> {
+    unique(): Array<T>;
+  }
+}
+Array.prototype.unique = function () {
+  return Array.from(new Set(this));
+};
+
+
+
+export {localization}

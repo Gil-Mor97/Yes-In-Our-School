@@ -1,7 +1,6 @@
 import { AuthContext } from "../../../context/AuthContext";
 import { db } from "../../../data/Db";
 import Incident from "../../../types/iincident.types";
-import ICity from "../../../types/icity.types";
 import React, { SetStateAction, useContext, useEffect, useState } from "react";
 import {
   FormGroup,
@@ -14,270 +13,15 @@ import {
   Collapse,
   Typography,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/he";
-import { AsYouType, isValidNumberForRegion } from "libphonenumber-js";
-import {
-  ContactPhone,
-  AlternateEmail,
-  ExpandMore,
-  ExpandLess,
-} from "@mui/icons-material";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import { ScaleLoader } from "react-spinners";
 
 import "./ReportInjustice.css";
-import localization from "./localization";
-// [1,2,2,3].unique() = [1,2,3]
-declare global {
-  interface Array<T> {
-    unique(): Array<T>;
-  }
-}
-Array.prototype.unique = function () {
-  return Array.from(new Set(this));
-};
-
-function CityAndSchool(props: {
-  state: [
-    { school: string; city: string },
-    React.Dispatch<SetStateAction<{ school: string; city: string }>>
-  ];
-  cities: readonly string[];
-}) {
-  //fetch from db
-  const [schools, setSchools] = useState([""]);
-  async function getSchools(city: string) {
-    const schoolsRef = db.collection("schools");
-    const schools = (await schoolsRef.where("SETL_NAME", "==", city).get())
-      .docs;
-    setSchools(
-      schools.length > 0
-        ? schools.map((school) => school.data().NAME).unique()
-        : [localization.no_schools_found]
-    );
-  }
-
-  // first pick city, then pick school
-  const [selectedSchool, setSchool] = props.state;
-  const changeCity = (_, value: string | null) => {
-    setSchool({
-      school: "",
-      city: (value ||= ""),
-    });
-    getSchools(value);
-  };
-  const changeSchool = (_, value: string | null) => {
-    if (!selectedSchool.city) return;
-    setSchool({
-      school: (value ||= ""),
-      city: selectedSchool.city,
-    });
-  };
-
-  return (
-    <FormGroup className="select-city-school">
-      <FormControl className="select-city">
-        <Autocomplete
-          freeSolo
-          options={props.cities}
-          renderInput={(params) => (
-            <TextField {...params} label={localization.city} />
-          )}
-          onChange={changeCity}
-        />
-      </FormControl>
-      <FormControl className="select-school">
-        <Autocomplete
-          freeSolo
-          disabled={selectedSchool.city ? false : true}
-          options={schools}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={
-                selectedSchool.city
-                  ? localization.school
-                  : localization.no_city_selected
-              }
-            />
-          )}
-          onChange={changeSchool}
-        />
-      </FormControl>
-    </FormGroup>
-  );
-}
-
-function PhoneNumberInput(props: {
-  state: [string, React.Dispatch<SetStateAction<string>>];
-  label: string;
-  icon: JSX.Element;
-  variant?: "standard" | "filled" | "outlined" | undefined;
-}) {
-  const [phoneNumber, setPhoneNumber] = props.state;
-  const [invalidPhoneNumber, setInvalidPN] = useState(false);
-  const handleInput = (e: any) => {
-    setPhoneNumber(new AsYouType("IL").input(e.target.value));
-  };
-  const validateInput = (e: any) => {
-    if (!phoneNumber) return setInvalidPN(false);
-    isValidNumberForRegion(phoneNumber, "IL")
-      ? setInvalidPN(false)
-      : setInvalidPN(true);
-  };
-
-  return (
-    <TextField
-      error={invalidPhoneNumber}
-      label={props.label}
-      variant={props.variant}
-      id="phone-number"
-      helperText={invalidPhoneNumber ? localization.invalid_phone : null}
-      onChange={handleInput}
-      onBlur={validateInput}
-      value={phoneNumber}
-      placeholder="000-000-0000"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{props.icon}</InputAdornment>
-        ),
-      }}
-    />
-  );
-}
-
-function EmailInput(props: {
-  state: [string, React.Dispatch<React.SetStateAction<string>>];
-  label: string;
-  icon: JSX.Element;
-  variant?: "standard" | "filled" | "outlined" | undefined;
-}) {
-  const [invalidEmail, setInvalidEmail] = useState(false);
-  const [email, setEmail] = props.state;
-  const handleInput = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setEmail(e.target.value);
-  };
-  const validateInput = (e: any) => {
-    if (!email || email == "") return setInvalidEmail(false);
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email.match(emailRegex)) setInvalidEmail(true);
-  };
-
-  return (
-    <TextField
-      label={props.label}
-      error={invalidEmail}
-      variant={props.variant}
-      id="email"
-      onChange={handleInput}
-      onBlur={validateInput}
-      value={email}
-      helperText={invalidEmail ? localization.invalid_email : null}
-      placeholder="example@domain.xyz"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{props.icon}</InputAdornment>
-        ),
-      }}
-    />
-  );
-}
-
-function DateContentInput(props: {
-  states: {
-    date: [
-      dateOfOccurence: Date,
-      setDateOfOccurence: React.Dispatch<SetStateAction<Date>>
-    ];
-    content: [
-      occurrenceContent: string,
-      setOccurenceContent: React.Dispatch<SetStateAction<string>>
-    ];
-  };
-  setExpandPreludeRef: any;
-  containerClassName: string;
-  dateLabel: string;
-  contentLabel: string;
-}) {
-  const collapsePrelude = () => {
-    props.setExpandPreludeRef(false);
-  };
-  const [date, setDate] = props.states.date;
-  const [content, setContent] = props.states.content;
-  return (
-    <div className={props.containerClassName}>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="he">
-        <DatePicker
-          label={props.dateLabel}
-          className="date-content"
-          onChange={(e: any, ctx: any) => {
-            // console.log(e.$d);
-            setDate(e.$d);
-          }}
-        />
-      </LocalizationProvider>
-      <TextField
-        onFocus={collapsePrelude}
-        multiline={true}
-        className="text-field-content"
-        label={props.contentLabel}
-        minRows={5}
-        maxRows={15}
-        onChange={(e) => setContent(e.target.value)}
-      />
-    </div>
-  );
-}
-
-function TeacherDetails(props: {
-  states: {
-    name: [
-      schoolWorkerName: string,
-      setSchoolWorkerName: React.Dispatch<SetStateAction<string>>
-    ];
-    phone: [
-      schoolWorkerPhone: string,
-      setSchoolWorkerPhone: React.Dispatch<SetStateAction<string>>
-    ];
-    email: [
-      schoolWorkerEmail: string,
-      setSchoolWorkerEmail: React.Dispatch<SetStateAction<string>>
-    ];
-  };
-  phoneLabel: string;
-  emailLabel: string;
-}) {
-  const [name, setName] = props.states.name;
-
-  return (
-    <FormGroup className="teacher-details">
-      <FormControl className="teacher-name">
-        <TextField
-          label={localization.name_of_school_worker}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {/* replace with autocomplete when we have more data */}
-      </FormControl>
-      <FormControl className="teacher-phone-number">
-        <PhoneNumberInput
-          state={props.states.phone}
-          label={props.phoneLabel}
-          icon={<ContactPhone />}
-        />
-      </FormControl>
-      <FormControl className="teacher-email">
-        <EmailInput
-          state={props.states.email}
-          label={props.emailLabel}
-          icon={<AlternateEmail />}
-        />
-      </FormControl>
-    </FormGroup>
-  );
-}
+import { localization } from "./util";
+import CityAndSchool from "./CityAndSchool";
+import TeacherDetails from "./TeacherDetails";
+import DateContentInput from "./DateAndContent";
 
 export default function ReportInjustice() {
   //init
@@ -305,18 +49,23 @@ export default function ReportInjustice() {
   const [dateOfIncident, setDateOfIncident] = useState(new Date());
   const [incidentContent, setIncidentContent] = useState("");
 
+  const [checkAgains, setCheckAgains] = useState([""]);
   const addIncident = async (payload: Incident) => {
     return await db.collection("incidents").add(payload);
   };
-
-  const validatePayload = (payload: Incident) => {
-    let validFlag = true;
+  const validatePayload = (
+    payload: Incident
+  ): { valid: boolean; invalids: string[] } => {
+    let validFlag: boolean = true;
+    let invalids: string[] = [];
     Object.entries(payload).forEach(([key, value]) => {
       if (["", undefined, null].includes(value)) {
         validFlag = false;
+        invalids.push(key);
       }
     });
-    return validFlag;
+    console.debug({ valid: validFlag, invalids });
+    return { valid: validFlag, invalids };
   };
 
   function submit(anon: boolean = false) {
@@ -329,8 +78,11 @@ export default function ReportInjustice() {
       dateOfIncident,
       incidentContent,
     };
-    if (!validatePayload(payload_anon))
+    let validation = validatePayload(payload_anon);
+    if (!validation.valid) {
+      setCheckAgains(validation.invalids);
       return console.warn("invalid payload! not submitted");
+    }
 
     addIncident(
       anon || !user || user.isAnonymous
@@ -364,13 +116,18 @@ export default function ReportInjustice() {
                   {localization.prelude_title}
                 </Typography>
                 <Collapse in={expandPrelude}>
-                  <CityAndSchool state={[school, setSchool]} cities={cities} />
+                  <CityAndSchool
+                    state={[school, setSchool]}
+                    cities={cities}
+                    invalidity={[checkAgains, setCheckAgains]}
+                  />
                   <TeacherDetails
                     states={{
                       name: [schoolWorkerName, setSchoolWorkerName],
                       phone: [schoolWorkerPhone, setSchoolWorkerPhone],
                       email: [schoolWorkerEmail, setSchoolWorkerEmail],
                     }}
+                    invalidity={[checkAgains, setCheckAgains]}
                     phoneLabel={localization.phone_of_school_worker_label}
                     emailLabel={localization.email_of_school_worker_label}
                   />
@@ -382,6 +139,7 @@ export default function ReportInjustice() {
                 date: [dateOfIncident, setDateOfIncident],
                 content: [incidentContent, setIncidentContent],
               }}
+              invalidity={[checkAgains, setCheckAgains]}
               setExpandPreludeRef={setExpandPrelude}
               containerClassName="content"
               dateLabel={localization.date_of_occurrence_label}
@@ -402,7 +160,9 @@ export default function ReportInjustice() {
           </div>
         </Card>
       ) : (
-        <ScaleLoader />
+        <span>
+          <ScaleLoader />
+        </span>
       )}
     </div>
   );
