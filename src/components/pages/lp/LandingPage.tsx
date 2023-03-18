@@ -88,6 +88,7 @@ function DashboardContent() {
               </Typography>
               <Container sx={{ display: "flex", mb: 2, mt: 2 }}>
                 <Button
+                  href="/#/signup"
                   size="large"
                   sx={{
                     textAlign: "center",

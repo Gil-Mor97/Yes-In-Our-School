@@ -157,6 +157,7 @@ function SearchDetails(props) {
       keywords,
     };
     console.log("payload", payload);
+    if (!keywords) return alert("נא להזין מילת מפתח");
     searchPrograms(keywords);
   }
 
@@ -257,8 +258,10 @@ export default function DemocraticContent() {
               {expandPrelude ? <ExpandLess /> : <ExpandMore />}
               חיפוש תכנים דמוקרטיים
             </Typography>
-            <SearchDetails />
-            <Collapse in={expandPrelude}></Collapse>
+
+            <Collapse in={expandPrelude}>
+              <SearchDetails />
+            </Collapse>
           </Card>
         </div>
       </form>
