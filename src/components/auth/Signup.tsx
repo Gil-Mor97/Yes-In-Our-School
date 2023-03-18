@@ -41,7 +41,7 @@ export default function SignUp() {
       });
     } catch (err: any) {
       console.error(err);
-      setError(errorDictionary[err.code]);
+      setError(errorDictionary[err.code] ?? err.message);
       setOpen(true);
     }
     setLoading(false);
@@ -49,8 +49,7 @@ export default function SignUp() {
 
   const errorDictionary = {
     "auth/weak-password": "הסיסמה צריכה להיות בת 6 תווים לפחות.",
-    "auth/email-already-in-use":
-      "כתובת האימייל כבר נמצאת בשימוש על ידי חשבון אחר.",
+    "auth/email-already-in-use": "אימייל כבר נמצא בשימוש על ידי חשבון אחר.",
   };
 
   const [email, setEmail] = useState("");
@@ -59,8 +58,8 @@ export default function SignUp() {
   const [fname, setFName] = useState("");
   const [lname, setLName] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [eula, setEula] = useState(false);
 

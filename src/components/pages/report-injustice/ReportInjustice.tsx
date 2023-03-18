@@ -1,6 +1,7 @@
 import { AuthContext } from "../../../context/AuthContext";
 import { db } from "../../../data/Db";
 import Incident from "../../../types/iincident.types";
+import ICity from "../../../types/icity.types";
 import React, { SetStateAction, useContext, useEffect, useState } from "react";
 import {
   FormGroup,
