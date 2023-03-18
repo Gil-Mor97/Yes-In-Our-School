@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -15,7 +15,11 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./pages/Dashboard/listItems";
+import { mainListItems, secondaryListItems } from "./listItems";
+import { auth } from "../../data/Db";
+import Button from "@mui/material/Button";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -26,11 +30,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      כן בבית ספרנו
+      {" " + new Date().getFullYear()}
     </Typography>
   );
 }
@@ -85,7 +86,12 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const mdTheme = createTheme({ direction: "rtl" });
+const mdTheme = createTheme({
+  direction: "rtl",
+  typography: {
+    fontFamily: '"Rubik"',
+  },
+});
 
 interface ResponsiveNavbarProps {
   children: React.ReactNode;
@@ -94,10 +100,18 @@ interface ResponsiveNavbarProps {
 export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
   children,
 }: ResponsiveNavbarProps) => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+    await auth.signOut();
+    navigate("/");
+  };
+  const user = useContext(AuthContext);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -129,7 +143,7 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              כן בבית ספרנו
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -147,6 +161,8 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
               px: [1],
             }}
           >
+            {user && <Button onClick={signOut}>יציאה מהמערכת</Button>}
+            {!user && <Button href="/#/login">להתחברות</Button>}
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
@@ -161,10 +177,6 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",

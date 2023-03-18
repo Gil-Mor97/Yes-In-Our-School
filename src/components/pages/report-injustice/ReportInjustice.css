@@ -1,0 +1,44 @@
+.report-injustice {
+<<<<<<<< HEAD:src/components/pages/ReportInjustice/ReportInjustice.css
+========
+  height: 100dvh;
+>>>>>>>> main:src/components/pages/report-injustice/ReportInjustice.css
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  justify-content: space-around;
+}
+
+.prelude {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.prelude svg {
+  vertical-align: middle;
+}
+
+.select-city-school,
+.teacher-details {
+  padding: 0 0.2rem;
+}
+.select-city-school > * > *,
+.content > * > * {
+  margin: 0.2rem 0;
+}
+.teacher-details * {
+  margin: 0.4rem 0;
+}
+
+.content {
+  margin-top: 1rem;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

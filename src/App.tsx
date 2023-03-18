@@ -1,4 +1,4 @@
-import Dashboard from "./components/pages/Dashboard/Dashboard";
+import HomePage from "./components/pages/homepage/HomePage";
 import React, { useEffect, useContext } from "react";
 import {
   HashRouter as Router,
@@ -8,14 +8,23 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./provider/AuthProvider";
 import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
 import { AuthContext } from "./context/AuthContext";
-import ResponsiveNavbar from "./components/ResponsiveNabvar";
-import ReportInjustice from "./components/pages/ReportInjustice/ReportInjustice";
+import ResponsiveNavbar from "./components/nav/ResponsiveNabvar";
+import "./App.css";
+import LandingPage from "./components/pages/lp/LandingPage";
+import ReportInjustice from "./components/pages/report-injustice/ReportInjustice";
 
 function RequireAuth({ children }) {
   const user = useContext(AuthContext);
 
   return user ? children : <Navigate to="/login" replace />;
+}
+
+function RequireNoAuth({ children }) {
+  const user = useContext(AuthContext);
+
+  return !user ? children : <Navigate to="/home" replace />;
 }
 
 function AppRouter() {
@@ -25,12 +34,27 @@ function AppRouter() {
         <div>
           <ResponsiveNavbar>
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route
+                path="/"
+                element={
+                  <RequireNoAuth>
+                    <LandingPage />
+                  </RequireNoAuth>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <RequireAuth>
+                    <HomePage />
+                  </RequireAuth>
+                }
+              />
               <Route
                 path="/democratic-content"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <HomePage />
                   </RequireAuth>
                 }
               />
@@ -38,7 +62,7 @@ function AppRouter() {
                 path="/schools"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <HomePage />
                   </RequireAuth>
                 }
               />
@@ -50,7 +74,22 @@ function AppRouter() {
                   </RequireAuth>
                 }
               />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/login"
+                element={
+                  <RequireNoAuth>
+                    <Login />
+                  </RequireNoAuth>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <RequireNoAuth>
+                    <Signup />
+                  </RequireNoAuth>
+                }
+              />
             </Routes>
           </ResponsiveNavbar>
         </div>
