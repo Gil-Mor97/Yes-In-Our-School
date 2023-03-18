@@ -41,7 +41,7 @@ function DashboardContent() {
               <Typography variant="h5" sx={{ textAlign: "center" }}>
                 {locale.title}
               </Typography>
-              <Typography paragraph="true">
+              {/* <Typography paragraph="true"> */}
 
               </Typography>
             </Card>
