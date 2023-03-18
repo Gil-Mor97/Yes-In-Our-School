@@ -22,6 +22,8 @@ import {
   ExpandMore,
   ExpandLess,
 } from "@mui/icons-material";
+import ICity from "../../types/icity.types";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 // [1,2,2,3].unique() = [1,2,3]
 declare global {
@@ -240,7 +242,7 @@ export default function ReportInjustice() {
       const citiesRef = db.collection("cities");
       console.log("pinging cities!");
       const cities = (await citiesRef.get()).docs;
-      setCities(cities.map((city) => city.data().name));
+      setCities(cities.map((city) => (city.data() as ICity).name));
     }
     getCities().catch(console.error);
   }, []);

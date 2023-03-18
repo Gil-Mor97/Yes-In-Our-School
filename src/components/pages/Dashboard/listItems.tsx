@@ -2,13 +2,11 @@ import * as React from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ReportIcon from "@mui/icons-material/Report";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import SchoolIcon from "@mui/icons-material/School";
+import TocIcon from "@mui/icons-material/Toc";
 import { Link } from "react-router-dom";
 
 export const mainListItems = (
@@ -21,19 +19,19 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton component={Link} to="/report-injustice">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <ReportIcon />
       </ListItemIcon>
       <ListItemText primary="דיווח על מורה שנפגע" />
     </ListItemButton>
     <ListItemButton component={Link} to="/democratic-content">
       <ListItemIcon>
-        <PeopleIcon />
+        <TocIcon />
       </ListItemIcon>
       <ListItemText primary="תוכן דמוקרטי" />
     </ListItemButton>
     <ListItemButton component={Link} to="/schools">
       <ListItemIcon>
-        <BarChartIcon />
+        <SchoolIcon />
       </ListItemIcon>
       <ListItemText primary="בתי ספר" />
     </ListItemButton>
