@@ -1,8 +1,5 @@
 .report-injustice {
-<<<<<<<< HEAD:src/components/pages/ReportInjustice/ReportInjustice.css
-========
   height: 100dvh;
->>>>>>>> main:src/components/pages/report-injustice/ReportInjustice.css
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
