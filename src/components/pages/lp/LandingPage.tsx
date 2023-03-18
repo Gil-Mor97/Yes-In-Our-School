@@ -37,7 +37,6 @@ function DashboardContent() {
             overflow: "auto",
           }}
         >
-          <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Card className="landing-page-card">
               <CardMedia
