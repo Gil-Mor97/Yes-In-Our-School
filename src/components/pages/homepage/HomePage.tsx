@@ -20,7 +20,7 @@ function DashboardContent() {
           component="main"
           sx={{
             flexGrow: 1,
-            height: "100vh",
+            // height: "100vh",
             overflow: "auto",
           }}
         >
