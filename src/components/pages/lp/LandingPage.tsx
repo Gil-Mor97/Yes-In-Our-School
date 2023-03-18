@@ -36,7 +36,7 @@ function DashboardContent() {
               <CardMedia
                 component="img"
                 height={"fit-content"}
-                image="/landing-page-image.webp"
+                image="/landing-page-image.png"
               />
               <Typography variant="h5" sx={{ textAlign: "center" }}>
                 {locale.title}
