@@ -21,6 +21,10 @@ import Button from "@mui/material/Button";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import mdTheme from "../../theme";
+import { ListItemButton, ListItemText } from "@mui/material";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import HomeIcon from "@mui/icons-material/Home";
 
 function Copyright(props: any) {
   return (
@@ -144,6 +148,15 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
+            {/* <ListItemButton component={Link} to="/">
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText sx={{ textAlign: "right" }} primary="דף הבית" />
+            </ListItemButton> */}
+            <IconButton href="/" color="inherit">
+              <HomeIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -172,7 +185,7 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
           component="main"
           sx={{
             flexGrow: 1,
-            height: "100vh",
+            // height: "100vh",
             overflow: "auto",
           }}
         >

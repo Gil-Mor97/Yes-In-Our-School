@@ -33,11 +33,11 @@ function DashboardContent() {
           component="main"
           sx={{
             flexGrow: 1,
-            height: "100vh",
+            // height: "100vh",
             overflow: "auto",
           }}
         >
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             <Card className="landing-page-card">
               <CardMedia
                 component="img"
@@ -48,19 +48,34 @@ function DashboardContent() {
                 {locale.title}
               </Typography>
               <Typography className="landing-page-lines">
-                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                <p
+                  style={{ padding: "2px 10px" }}
+                  className="landing-page-lines-p"
+                >
                   {locale.line1}..
                 </p>
-                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                <p
+                  style={{ padding: "2px 10px" }}
+                  className="landing-page-lines-p"
+                >
                   {locale.line2}..
                 </p>
-                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                <p
+                  style={{ padding: "2px 10px" }}
+                  className="landing-page-lines-p"
+                >
                   {locale.line3}..
                 </p>
-                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                <p
+                  style={{ padding: "2px 10px" }}
+                  className="landing-page-lines-p"
+                >
                   {locale.line4}..
                 </p>
-                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                <p
+                  style={{ padding: "2px 10px" }}
+                  className="landing-page-lines-p"
+                >
                   {locale.line5}..
                 </p>
               </Typography>
@@ -73,6 +88,7 @@ function DashboardContent() {
               </Typography>
               <Container sx={{ display: "flex", mb: 2, mt: 2 }}>
                 <Button
+                  href="/#/signup"
                   size="large"
                   sx={{
                     textAlign: "center",
