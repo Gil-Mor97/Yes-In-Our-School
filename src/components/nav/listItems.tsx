@@ -11,7 +11,8 @@ import { Link } from "react-router-dom";
 import mdTheme from "../../theme";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import "./listitems.css";
+import EscalatorWarningIcon from "@mui/icons-material/EscalatorWarning";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 export const mainListItems = (
   <ThemeProvider theme={mdTheme}>
@@ -43,13 +44,13 @@ export const mainListItems = (
       </ListItemButton>
       <ListItemButton component={Link} to="/schools">
         <ListItemIcon>
-          <SchoolIcon />
+          <EscalatorWarningIcon />
         </ListItemIcon>
         <ListItemText sx={{ textAlign: "right" }} primary="קבוצת הורים" />
       </ListItemButton>
       <ListItemButton component={Link} to="/schools">
         <ListItemIcon>
-          <SchoolIcon />
+          <ManageSearchIcon />
         </ListItemIcon>
         <ListItemText
           sx={{ textAlign: "right" }}

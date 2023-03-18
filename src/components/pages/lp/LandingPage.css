@@ -1,0 +1,24 @@
+.landing-page-card {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding-bottom: 0.6rem;
+  padding: 10px;
+}
+
+.landing-page-lines-p {
+  margin: 0;
+  padding: 20px;
+}
+
+.landing-page-lines {
+  width: fit-content;
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+}
+
+.lets-begin {
+  display: grid;
+  margin-top: 1rem;
+}

@@ -10,11 +10,18 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import mdTheme from "../../../theme";
-import { Card, CardMedia } from "@mui/material";
+import { Card, CardMedia, Button } from "@mui/material";
 
 const locale = {
   title: "אם גם את.ה...",
-  line1: "מודאג.ת מהתוכן שהילדים",
+  line1: "מודאג.ת מהתוכן שהילדים לומדים בבתי הספר",
+  line2: "רוצה להכניס יותר תכנים דמוקרטיים לתכנית הלימודים",
+  line3:
+    "מכיר.ה עובד או עובדת הוראה שנפגעו בשל הצגת תכנים דמוקרטיים בכיתות הלימוד",
+  line4: "מחפש.ת רעיונות לחינוך לדמוקרטיה",
+  line5: "רוצה לחבור להורים נוספים בבית הספר ולפעול יחד לשינוי",
+  you_came_to_the_right_place: "הגעת למקום הנכון!",
+  lets_begin: "שנתחיל?",
 };
 
 function DashboardContent() {
@@ -30,18 +37,54 @@ function DashboardContent() {
             overflow: "auto",
           }}
         >
-          <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Card>
+            <Card className="landing-page-card">
               <CardMedia
                 component="img"
-                height={"fit-content"}
-                image="/landing-page-image.webp"
+                sx={{ height: "fit-content", maxHeight: "300px" }}
+                image="/landing-page-image.png"
               />
               <Typography variant="h5" sx={{ textAlign: "center" }}>
                 {locale.title}
               </Typography>
-              <Typography>test</Typography>
+              <Typography className="landing-page-lines">
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line1}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line2}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line3}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line4}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line5}..
+                </p>
+              </Typography>
+              <Typography
+                className="lets-begin"
+                style={{ fontSize: 24, textAlign: "center" }}
+                variant="h4"
+              >
+                {locale.you_came_to_the_right_place}
+              </Typography>
+              <Container sx={{ display: "flex", mb: 2, mt: 2 }}>
+                <Button
+                  size="large"
+                  sx={{
+                    textAlign: "center",
+                    marginTop: "0.8rem",
+                    margin: "0 auto",
+                  }}
+                  color="secondary"
+                  variant="outlined"
+                >
+                  {locale.lets_begin}
+                </Button>
+              </Container>
             </Card>
           </Container>
         </Box>
