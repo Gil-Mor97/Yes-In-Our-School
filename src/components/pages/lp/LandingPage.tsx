@@ -14,7 +14,7 @@ import { Card, CardMedia } from "@mui/material";
 
 const locale = {
   title: "אם גם את.ה...",
-  line1: "מודאג.ת מהתוכן שהילדים"
+  line1: "מודאג.ת מהתוכן שהילדים",
 };
 
 function DashboardContent() {
@@ -41,9 +41,7 @@ function DashboardContent() {
               <Typography variant="h5" sx={{ textAlign: "center" }}>
                 {locale.title}
               </Typography>
-              {/* <Typography paragraph="true"> */}
-
-              </Typography>
+              <Typography>test</Typography>
             </Card>
           </Container>
         </Box>
