@@ -20,6 +20,7 @@ import { auth } from "../../data/Db";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import theme from "../../theme";
 
 function Copyright(props: any) {
   return (
@@ -86,13 +87,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const mdTheme = createTheme({
-  direction: "rtl",
-  typography: {
-    fontFamily: '"Rubik"',
-  },
-});
-
 interface ResponsiveNavbarProps {
   children: React.ReactNode;
 }
@@ -114,7 +108,7 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
   const user = useContext(AuthContext);
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar dir="rtl" position="absolute" open={open}>

@@ -9,12 +9,11 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
-
-const mdTheme = createTheme({ direction: "rtl" });
+import theme from "../../../theme";
 
 function DashboardContent() {
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Box
