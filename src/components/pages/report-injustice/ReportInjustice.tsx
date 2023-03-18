@@ -42,6 +42,7 @@ export default function ReportInjustice() {
 
   //states
   const [expandPrelude, setExpandPrelude] = useState(true);
+  const [expandDateAndContent, setExpandDateAndContent] = useState(false);
   const [school, setSchool] = useState({ school: "", city: "" });
   const [schoolWorkerName, setSchoolWorkerName] = useState("");
   const [schoolWorkerPhone, setSchoolWorkerPhone] = useState("");
@@ -49,6 +50,7 @@ export default function ReportInjustice() {
   const [dateOfIncident, setDateOfIncident] = useState(new Date());
   const [incidentContent, setIncidentContent] = useState("");
 
+  const [incidentSent, setIncidentSent] = useState(false);
   const [checkAgains, setCheckAgains] = useState([""]);
   const addIncident = async (payload: Incident) => {
     return await db.collection("incidents").add(payload);
@@ -64,7 +66,6 @@ export default function ReportInjustice() {
         invalids.push(key);
       }
     });
-    console.debug({ valid: validFlag, invalids });
     return { valid: validFlag, invalids };
   };
 
@@ -81,7 +82,22 @@ export default function ReportInjustice() {
     let validation = validatePayload(payload_anon);
     if (!validation.valid) {
       setCheckAgains(validation.invalids);
-      return console.warn("invalid payload! not submitted");
+      setExpandPrelude(
+        validation.invalids.includes(
+          "city" ||
+            "school" ||
+            "schoolWorkerName" ||
+            "schoolWorkerPhone" ||
+            "schoolWorkerEmail"
+        )
+      );
+      setExpandDateAndContent(
+        validation.invalids.includes("incidentContent" || "dateOfIncident")
+      );
+      return console.warn(
+        "invalid payload! not submitted:",
+        validation.invalids
+      );
     }
 
     addIncident(
@@ -96,6 +112,8 @@ export default function ReportInjustice() {
           } as Incident)
     ).then((res) => {
       console.info("added new incident: ", res.id);
+
+      setIncidentSent(true);
     });
   }
 
@@ -134,17 +152,29 @@ export default function ReportInjustice() {
                 </Collapse>
               </Card>
             </div>
-            <DateContentInput
-              states={{
-                date: [dateOfIncident, setDateOfIncident],
-                content: [incidentContent, setIncidentContent],
-              }}
-              invalidity={[checkAgains, setCheckAgains]}
-              setExpandPreludeRef={setExpandPrelude}
-              containerClassName="content"
-              dateLabel={localization.date_of_occurrence_label}
-              contentLabel={localization.content_of_occurrence_label}
-            />
+            <Card>
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                onClick={() => setExpandDateAndContent(!expandDateAndContent)}
+              >
+                {expandDateAndContent ? <ExpandLess /> : <ExpandMore />}
+                {localization.date_and_content_title}
+              </Typography>{" "}
+              <Collapse in={expandDateAndContent}>
+                <DateContentInput
+                  states={{
+                    date: [dateOfIncident, setDateOfIncident],
+                    content: [incidentContent, setIncidentContent],
+                  }}
+                  invalidity={[checkAgains, setCheckAgains]}
+                  setExpandPreludeRef={setExpandPrelude}
+                  containerClassName="content"
+                  dateLabel={localization.date_of_occurrence_label}
+                  contentLabel={localization.content_of_occurrence_label}
+                />
+              </Collapse>
+            </Card>
           </form>
           <div className="submit">
             <Button color="primary" variant="outlined" onClick={() => submit()}>
@@ -158,9 +188,14 @@ export default function ReportInjustice() {
               {localization.report_anon_button}
             </Button>
           </div>
+          <div className="feedback">
+            {incidentSent ? (
+              <Card>{localization.incident_reported_success}</Card>
+            ) : null}
+          </div>
         </Card>
       ) : (
-        <span>
+        <span className="loading">
           <ScaleLoader />
         </span>
       )}

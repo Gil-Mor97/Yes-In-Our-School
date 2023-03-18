@@ -1,9 +1,11 @@
-import { TextField } from "@mui/material";
+import { PermMedia } from "@mui/icons-material";
+import { Button, TextField } from "@mui/material";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import React from "react";
 import { SetStateAction } from "react";
+import { localization } from "./util";
 
 export default function DateContentInput(props: {
   states: {
@@ -41,6 +43,14 @@ export default function DateContentInput(props: {
           defaultValue={dayjs(Date.now())}
           value={dayjs(date)}
           maxDate={dayjs(Date.now())}
+          slots={{
+            textField: TextField,
+          }}
+          slotProps={{
+            textField: {
+              color: "secondary",
+            },
+          }}
         />
       </LocalizationProvider>
       <TextField
@@ -58,6 +68,9 @@ export default function DateContentInput(props: {
           setContent(e.target.value);
         }}
       />
+      <Button variant="outlined" endIcon={<PermMedia />} color="inherit">
+        {localization.upload_media}
+      </Button>
     </div>
   );
 }

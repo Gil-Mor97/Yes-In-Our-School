@@ -1,3 +1,14 @@
+.report-injustice-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.loading {
+  position: absolute;
+  inset: auto;
+}
+
 .report-injustice {
   width: 100%;
   display: flex;
@@ -11,7 +22,7 @@
   display: flex;
   flex-flow: column nowrap;
 }
-.prelude svg {
+svg {
   vertical-align: middle;
 }
 
