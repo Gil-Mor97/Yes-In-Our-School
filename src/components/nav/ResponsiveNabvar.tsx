@@ -20,7 +20,7 @@ import { auth } from "../../data/Db";
 import Button from "@mui/material/Button";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import theme from "../../theme";
+import mdTheme from "../../theme";
 
 function Copyright(props: any) {
   return (
@@ -108,7 +108,7 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
   const user = useContext(AuthContext);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar dir="rtl" position="absolute" open={open}>
@@ -139,11 +139,11 @@ export const ResponsiveNavbar: React.FC<ResponsiveNavbarProps> = ({
             >
               כן בבית ספרנו
             </Typography>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

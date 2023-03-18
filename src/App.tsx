@@ -14,6 +14,7 @@ import ResponsiveNavbar from "./components/nav/ResponsiveNabvar";
 import "./App.css";
 import LandingPage from "./components/pages/lp/LandingPage";
 import ReportInjustice from "./components/pages/report-injustice/ReportInjustice";
+import DemocraticContent from "./components/pages/democratic-content/DemocraticContent";
 
 function RequireAuth({ children }) {
   const user = useContext(AuthContext);
@@ -54,7 +55,7 @@ function AppRouter() {
                 path="/democratic-content"
                 element={
                   <RequireAuth>
-                    <HomePage />
+                    <DemocraticContent />
                   </RequireAuth>
                 }
               />

@@ -2,7 +2,25 @@ import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
 // A custom theme for this app
-const theme = createTheme({
+const mdTheme = createTheme({
+  components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          left: 'inherit',
+          right: '1.75rem',
+          transformOrigin: 'right',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          textAlign: 'right',
+        },
+      },
+    },
+  },
   direction: 'rtl',
   typography: {
     fontFamily: '"Rubik"',
@@ -20,4 +38,4 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export default mdTheme;

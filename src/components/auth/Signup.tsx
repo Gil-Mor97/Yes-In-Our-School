@@ -24,8 +24,7 @@ import {
 import { db, auth } from "../../data/Db";
 import { collection, addDoc } from "firebase/firestore";
 import { Alert, AlertTitle, CircularProgress, Snackbar } from "@mui/material";
-
-const theme = createTheme();
+import mdTheme from "../../theme";
 
 export default function SignUp() {
   const registerWithEmailAndPassword = async (name, email, password) => {
@@ -102,7 +101,7 @@ export default function SignUp() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={mdTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Snackbar
@@ -219,11 +218,12 @@ export default function SignUp() {
               </Grid>
               <Button
                 type="submit"
+                color="primary"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign Up
+                הרשמה
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
