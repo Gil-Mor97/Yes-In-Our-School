@@ -48,32 +48,44 @@ function DashboardContent() {
               <Typography variant="h5" sx={{ textAlign: "center" }}>
                 {locale.title}
               </Typography>
-              <Typography
-                className="landing-page-lines"
-                sx={{
-                  fontSize: "1rem",
-                  "@media (min-width: 600px)": {
-                    fontSize: "0.2rem",
-                  },
-                }}
-              >
-                <p>{locale.line1}..</p>
-                <p>{locale.line2}..</p>
-                <p>{locale.line3}..</p>
-                <p>{locale.line4}..</p>
-                <p>{locale.line5}..</p>
+              <Typography className="landing-page-lines">
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line1}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line2}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line3}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line4}..
+                </p>
+                <p style={{ padding: "10px" }} className="landing-page-lines-p">
+                  {locale.line5}..
+                </p>
               </Typography>
-              <Typography className="lets-begin" variant="h4">
+              <Typography
+                className="lets-begin"
+                style={{ fontSize: 24, textAlign: "center" }}
+                variant="h4"
+              >
                 {locale.you_came_to_the_right_place}
+              </Typography>
+              <Container sx={{ display: "flex", mb: 2, mt: 2 }}>
                 <Button
                   size="large"
-                  sx={{ marginTop: "0.8rem" }}
+                  sx={{
+                    textAlign: "center",
+                    marginTop: "0.8rem",
+                    margin: "0 auto",
+                  }}
                   color="secondary"
                   variant="outlined"
                 >
                   {locale.lets_begin}
                 </Button>
-              </Typography>
+              </Container>
             </Card>
           </Container>
         </Box>
