@@ -16,8 +16,7 @@ import { auth } from "../../data/Db";
 import { AuthContext } from "../../context/AuthContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
-
-const theme = createTheme();
+import mdTheme from "../../theme";
 
 const errorDictionary = {
   "auth/wrong-password": "אימייל או סיסמה שגויים",
@@ -84,7 +83,7 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={mdTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Snackbar
@@ -152,6 +151,7 @@ export default function SignIn() {
               <Button
                 type="submit"
                 fullWidth
+                color="primary"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >

@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
-import theme from "../../../theme";
+import mdTheme from "../../../theme";
 import { Card, CardMedia } from "@mui/material";
 
 const locale = {
@@ -19,7 +19,7 @@ const locale = {
 
 function DashboardContent() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Box
