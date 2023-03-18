@@ -1,4 +1,4 @@
-import Dashboard from "./components/pages/Dashboard/Dashboard";
+import HomePage from "./components/pages/homepage/HomePage";
 import React, { useEffect, useContext } from "react";
 import {
   HashRouter as Router,
@@ -10,9 +10,10 @@ import { AuthProvider } from "./provider/AuthProvider";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import { AuthContext } from "./context/AuthContext";
-import ResponsiveNavbar from "./components/ResponsiveNabvar";
-import ReportInjustice from "./Dashboard/components/ReportInjustice";
+import ResponsiveNavbar from "./components/nav/ResponsiveNabvar";
 import "./App.css";
+import LandingPage from "./components/pages/lp/LandingPage";
+import ReportInjustice from "./components/pages/report-injustice/ReportInjustice";
 
 function RequireAuth({ children }) {
   const user = useContext(AuthContext);
@@ -37,7 +38,7 @@ function AppRouter() {
                 path="/"
                 element={
                   <RequireNoAuth>
-                    <Dashboard />
+                    <LandingPage />
                   </RequireNoAuth>
                 }
               />
@@ -45,7 +46,7 @@ function AppRouter() {
                 path="/home"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <HomePage />
                   </RequireAuth>
                 }
               />
@@ -53,7 +54,7 @@ function AppRouter() {
                 path="/democratic-content"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <HomePage />
                   </RequireAuth>
                 }
               />
@@ -61,7 +62,7 @@ function AppRouter() {
                 path="/schools"
                 element={
                   <RequireAuth>
-                    <Dashboard />
+                    <HomePage />
                   </RequireAuth>
                 }
               />

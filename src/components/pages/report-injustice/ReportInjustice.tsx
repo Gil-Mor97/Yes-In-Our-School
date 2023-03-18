@@ -14,7 +14,6 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/he";
 import { AsYouType, isValidNumberForRegion } from "libphonenumber-js";
-import { db } from "../../data/Db";
 import "./ReportInjustice.css";
 import {
   ContactPhone,
@@ -22,8 +21,9 @@ import {
   ExpandMore,
   ExpandLess,
 } from "@mui/icons-material";
-import ICity from "../../types/icity.types";
+import ICity from "../../../types/icity.types";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import { db } from "../../../data/Db";
 
 // [1,2,2,3].unique() = [1,2,3]
 declare global {
