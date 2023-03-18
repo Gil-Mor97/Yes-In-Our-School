@@ -23,6 +23,13 @@ import {
 } from "@mui/icons-material";
 import ICity from "../../../types/icity.types";
 import { db } from "../../../data/Db";
+import { MenuItem } from "@mui/material";
+import { Select } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { OutlinedInput } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
+import { CardActions } from "@mui/material";
+import { CardContent } from "@mui/material";
 
 // [1,2,2,3].unique() = [1,2,3]
 declare global {
@@ -49,147 +56,19 @@ const localization = {
   content_of_occurrence_label: "פרטי התקרית",
   report_button: "דיווח",
   report_anon_button: "דיווח באנונימיות",
+  contentType: "מצאו לי",
+  language: "שפה",
+  languageEN: "אנגלית",
+  languageHE: "עברית",
+  video: "סרטון",
+  movie: "סרט",
+  lesson: "מערך שיעור",
+  activity: "פעילות",
+  presentation: "מצגת",
+  info_source: "מקור מידע",
+  keywords: "חיפוש לפי מילות מפתח",
+  search: "חיפוש",
 };
-
-function CityAndSchool(props: { cities: readonly string[] }) {
-  //fetch from db
-  const [schools, setSchools] = useState([""]);
-  async function getSchools(city: string) {
-    const schoolsRef = db.collection("schools");
-    console.log("pinging schools!");
-    const schools = (await schoolsRef.where("SETL_NAME", "==", city).get())
-      .docs;
-    setSchools(
-      schools.length > 0
-        ? schools.map((school) => school.data().NAME).unique()
-        : [localization.no_schools_found]
-    );
-  }
-
-  // first pick city, then pick school
-  const [selectedSchool, setSchool] = useState({ school: "", city: "" });
-  const changeCity = (e: any, value: any) => {
-    setSchool({
-      school: "",
-      city: value,
-    });
-    getSchools(value);
-  };
-  const changeSchool = (e: any, value: string | null) => {
-    if (!selectedSchool.city) return;
-    setSchool({
-      school: (value ||= ""),
-      city: selectedSchool.city,
-    });
-  };
-
-  return (
-    <FormGroup className="select-city-school">
-      <FormControl className="select-city">
-        <Autocomplete
-          freeSolo
-          options={props.cities}
-          renderInput={(params) => (
-            <TextField {...params} label={localization.city} />
-          )}
-          onChange={changeCity}
-        />
-      </FormControl>
-      <FormControl className="select-school">
-        <Autocomplete
-          freeSolo
-          disabled={selectedSchool.city ? false : true}
-          options={schools}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={
-                selectedSchool.city
-                  ? localization.school
-                  : localization.no_city_selected
-              }
-            />
-          )}
-          onChange={changeSchool}
-        />
-      </FormControl>
-    </FormGroup>
-  );
-}
-
-function PhoneNumberInput(props: {
-  label: string;
-  icon: JSX.Element;
-  variant?: "standard" | "filled" | "outlined" | undefined;
-}) {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [invalidPhoneNumber, setInvalidPN] = useState(false);
-  const handleInput = (e: any) => {
-    setPhoneNumber(new AsYouType("IL").input(e.target.value));
-  };
-  const validateInput = (e: any) => {
-    if (!phoneNumber) return setInvalidPN(false);
-    isValidNumberForRegion(phoneNumber, "IL")
-      ? setInvalidPN(false)
-      : setInvalidPN(true);
-  };
-
-  return (
-    <TextField
-      error={invalidPhoneNumber}
-      label={props.label}
-      variant={props.variant}
-      id="phone-number"
-      onChange={handleInput}
-      onBlur={validateInput}
-      value={phoneNumber}
-      placeholder="000-000-0000"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{props.icon}</InputAdornment>
-        ),
-      }}
-    />
-  );
-}
-
-function EmailInput(props: {
-  // state: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  label: string;
-  icon: JSX.Element;
-  variant?: "standard" | "filled" | "outlined" | undefined;
-}) {
-  const [invalidEmail, setInvalidEmail] = useState(false);
-  const [email, setEmail] = useState("");
-  const handleInput = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setEmail(e.target.value);
-  };
-  const validateInput = (e: any) => {
-    if (!email || email == "") return setInvalidEmail(false);
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email.match(emailRegex)) setInvalidEmail(true);
-  };
-
-  return (
-    <TextField
-      label={props.label}
-      error={invalidEmail}
-      variant={props.variant}
-      id="email"
-      onChange={handleInput}
-      onBlur={validateInput}
-      value={email}
-      placeholder="example@domain.xyz"
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">{props.icon}</InputAdornment>
-        ),
-      }}
-    />
-  );
-}
 
 function DateContentInput(props: {
   setExpandPreludeRef: any;
@@ -216,52 +95,156 @@ function DateContentInput(props: {
     </div>
   );
 }
-function TeacherDetails(props: { phoneLabel: string; emailLabel: string }) {
+
+interface IDemocraticContent {
+  Authors: string;
+  Content_type: string;
+  Copyrights_type: string;
+  Description: string;
+  Keywords: string;
+  Language: string;
+  Last_update: string;
+  Link: string;
+  Name: string;
+  Target_ages: string;
+  id: string;
+}
+
+function SearchDetails(props) {
+  const [contentType, setContentType] = useState<string[]>([]);
+  const [language, setLanguage] = useState("");
+  const [keywords, setKeywords] = useState("");
+  const [results, setResults] = useState<IDemocraticContent[]>([]);
+
+  const handleContentTypeChange = (
+    event: SelectChangeEvent<typeof contentType>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    setContentType(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  async function searchPrograms(keyword: string) {
+    const democraticContentRef = db.collection("Democratic_content");
+    const democraticContentDocs = (
+      await democraticContentRef
+        .where("Keywords", ">=", keyword.toLocaleLowerCase())
+        .where("Keywords", "<=", keyword.toLocaleLowerCase() + "~")
+        .orderBy("Keywords", "asc")
+        .get()
+    ).docs;
+    console.log("democraticContentDocs", democraticContentDocs);
+    setResults(
+      democraticContentDocs.map((x) => {
+        const cont: IDemocraticContent = {
+          ...(x.data() as IDemocraticContent),
+          id: x.id,
+        };
+        return cont;
+      })
+    );
+    console.log(results);
+  }
+
+  async function submit() {
+    const payload = {
+      contentType,
+      language,
+      keywords,
+    };
+    console.log("payload", payload);
+    searchPrograms(keywords);
+  }
+
+  const cards = results.map((result, index) => {
+    return (
+      <Card key={"card_" + index} sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {localization[result.Content_type]}
+          </Typography>
+          <Typography variant="h5" component="div"></Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {result.Name}
+          </Typography>
+          <Typography variant="body2">{result.Description}</Typography>
+        </CardContent>
+        <CardActions>
+          <Button href={result.Link} size="small">
+            למעבר לתוכן
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  });
+
   return (
-    <FormGroup className="teacher-details">
-      <FormControl className="teacher-name">
-        <TextField label={localization.name_of_school_worker} />{" "}
-        {/* replace with autocomplete when we have more data */}
-      </FormControl>
-      <FormControl className="teacher-phone-number">
-        <PhoneNumberInput label={props.phoneLabel} icon={<ContactPhone />} />
-      </FormControl>
-      <FormControl className="teacher-email">
-        <EmailInput label={props.emailLabel} icon={<AlternateEmail />} />
-      </FormControl>
-    </FormGroup>
+    <div>
+      <FormGroup className="teacher-details">
+        <Select
+          multiple
+          displayEmpty
+          id="contentType-select"
+          value={contentType}
+          input={<OutlinedInput />}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em>{localization.contentType}</em>;
+            }
+
+            return selected.map((x) => localization[x]).join(", ");
+          }}
+          onChange={handleContentTypeChange}
+        >
+          <MenuItem value="" disabled>
+            <em>{localization.contentType}</em>
+          </MenuItem>
+          <MenuItem value={"movie"}>{localization.movie}</MenuItem>
+          <MenuItem value={"video"}>{localization.video}</MenuItem>
+          <MenuItem value={"lesson"}>{localization.lesson}</MenuItem>
+          <MenuItem value={"activity"}>{localization.activity}</MenuItem>
+          <MenuItem value={"presentation"}>
+            {localization.presentation}
+          </MenuItem>
+          <MenuItem value={"info_source"}>{localization.info_source}</MenuItem>
+        </Select>
+        <InputLabel id="language-label">{localization.language}</InputLabel>
+        <Select
+          labelId="language-label"
+          id="language-select"
+          value={language}
+          label={localization.language}
+          onChange={(event) => setLanguage(event.target.value)}
+        >
+          <MenuItem value="">{localization.language}</MenuItem>
+          <MenuItem value={"EN"}>{localization.languageEN}</MenuItem>
+          <MenuItem value={"HE"}>{localization.languageHE}</MenuItem>
+        </Select>
+        <FormControl>
+          <TextField
+            value={keywords}
+            onChange={(event) => setKeywords(event.target.value)}
+            label={localization.keywords}
+          />{" "}
+        </FormControl>
+        <Button color="secondary" variant="outlined" onClick={() => submit()}>
+          {localization.search}
+        </Button>
+      </FormGroup>
+      <div className="results">{cards}</div>
+    </div>
   );
 }
 
 export default function DemocraticContent() {
-  const [cities, setCities] = useState([""]);
-  useEffect(() => {
-    //fetch cities on load
-    async function getCities() {
-      const citiesRef = db.collection("cities");
-      console.log("pinging cities!");
-      const cities = (await citiesRef.get()).docs;
-      setCities(cities.map((city) => (city.data() as ICity).name));
-    }
-    getCities().catch(console.error);
-  }, []);
-
   const [expandPrelude, setExpandPrelude] = useState(true);
-  function submit(anon: boolean = false) {
-    anon ? console.log("submitted anonymously!") : console.log("submitted!");
-    const payload = {
-      city: "",
-      school: "",
-      schoolWorkerName: "",
-      schoolWorkerPhone: "",
-      schoolWorkerEmail: "",
-      dateOfOccurence: new Date(),
-      occurrenceContent: "",
-    };
-  }
 
   return (
-    <div className="report-injustice">
+    <div>
       <h2>{localization.title}</h2>
       <form>
         <div className="prelude">
@@ -272,36 +255,13 @@ export default function DemocraticContent() {
               onClick={() => setExpandPrelude(!expandPrelude)}
             >
               {expandPrelude ? <ExpandLess /> : <ExpandMore />}
-              פרטי בית הספר ועובד ההוראה
+              חיפוש תכנים דמוקרטיים
             </Typography>
-            <Collapse in={expandPrelude}>
-              <CityAndSchool cities={cities} />
-              <TeacherDetails
-                phoneLabel={localization.phone_of_school_worker_label}
-                emailLabel={localization.email_of_school_worker_label}
-              />
-            </Collapse>
+            <SearchDetails />
+            <Collapse in={expandPrelude}></Collapse>
           </Card>
         </div>
-        <DateContentInput
-          setExpandPreludeRef={setExpandPrelude}
-          containerClassName="content"
-          dateLabel={localization.date_of_occurrence_label}
-          contentLabel={localization.content_of_occurrence_label}
-        />
       </form>
-      <div className="submit">
-        <Button color="primary" variant="outlined" onClick={() => submit()}>
-          {localization.report_button}
-        </Button>
-        <Button
-          color="secondary"
-          variant="outlined"
-          onClick={() => submit(true)}
-        >
-          {localization.report_anon_button}
-        </Button>
-      </div>
     </div>
   );
 }
