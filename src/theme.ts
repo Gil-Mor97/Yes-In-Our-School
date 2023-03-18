@@ -3,6 +3,24 @@ import { red } from '@mui/material/colors';
 
 // A custom theme for this app
 const theme = createTheme({
+  components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          left: 'inherit',
+          right: '1.75rem',
+          transformOrigin: 'right',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          textAlign: 'right',
+        },
+      },
+    },
+  },
   direction: 'rtl',
   typography: {
     fontFamily: '"Rubik"',
