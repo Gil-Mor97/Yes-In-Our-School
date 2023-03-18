@@ -18,12 +18,12 @@ export const mainListItems = (
   <ThemeProvider theme={mdTheme}>
     <CssBaseline />
     <React.Fragment>
-      <ListItemButton component={Link} to="/">
+      {/* <ListItemButton component={Link} to="/">
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
         <ListItemText sx={{ textAlign: "right" }} primary="דף הבית" />
-      </ListItemButton>
+      </ListItemButton> */}
       <ListItemButton component={Link} to="/report-injustice">
         <ListItemIcon>
           <ReportIcon />
