@@ -10,6 +10,12 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import theme from "../../../theme";
+import { Card, CardMedia } from "@mui/material";
+
+const locale = {
+  title: "אם גם את.ה...",
+  line1: "מודאג.ת מהתוכן שהילדים"
+};
 
 function DashboardContent() {
   return (
@@ -26,9 +32,19 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Typography>שלום! זה דף הנחיתה</Typography>
-            </Grid>
+            <Card>
+              <CardMedia
+                component="img"
+                height={"fit-content"}
+                image="/landing-page-image.webp"
+              />
+              <Typography variant="h5" sx={{ textAlign: "center" }}>
+                {locale.title}
+              </Typography>
+              <Typography paragraph="true">
+
+              </Typography>
+            </Card>
           </Container>
         </Box>
       </Box>
