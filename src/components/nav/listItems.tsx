@@ -21,7 +21,7 @@ export const mainListItems = (
       <ListItemIcon>
         <ReportIcon />
       </ListItemIcon>
-      <ListItemText primary="דיווח על מורה שנפגע" />
+      <ListItemText primary="דיווח על פגיעה במורה" />
     </ListItemButton>
     <ListItemButton component={Link} to="/democratic-content">
       <ListItemIcon>

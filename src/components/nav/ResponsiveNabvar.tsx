@@ -15,10 +15,10 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { mainListItems, secondaryListItems } from "./pages/Dashboard/listItems";
-import { auth } from "../data/Db";
+import { mainListItems, secondaryListItems } from "./listItems";
+import { auth } from "../../data/Db";
 import Button from "@mui/material/Button";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
