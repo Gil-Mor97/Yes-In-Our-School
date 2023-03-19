@@ -1,38 +1,100 @@
-import Dashboard from "./Dashboard/Dashboard";
-import { doc, setDoc } from "firebase/firestore";
-import db from "./data/Db";
-import React, { useEffect } from "react";
-import uuid from "react-uuid";
-import { HashRouter as Router, Route, Link, Routes } from "react-router-dom";
+import HomePage from "./components/pages/homepage/HomePage";
+import React, { useEffect, useContext } from "react";
+import {
+  HashRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./provider/AuthProvider";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import { AuthContext } from "./context/AuthContext";
+import ResponsiveNavbar from "./components/nav/ResponsiveNabvar";
+import "./App.css";
+import LandingPage from "./components/pages/lp/LandingPage";
+import ReportInjustice from "./components/pages/report-injustice/ReportInjustice";
+import DemocraticContent from "./components/pages/democratic-content/DemocraticContent";
 
-const addToDb = async () => {
-  // Add a second document with a generated ID.
-  // const citiesRef = collection(db, "ngos");
-  try {
-    const value = "test2";
-    const docRef = doc(db, "todo2", uuid());
-    await setDoc(docRef, { value });
-    alert(`Item ${value} added!`);
-  } catch (error) {
-    alert(error);
-  }
-};
+function RequireAuth({ children }) {
+  const user = useContext(AuthContext);
 
+  return user ? children : <Navigate to="/login" replace />;
+}
+
+function RequireNoAuth({ children }) {
+  const user = useContext(AuthContext);
+
+  return !user ? children : <Navigate to="/home" replace />;
+}
 
 function AppRouter() {
-  useEffect(() => {
-    // // addToDb();
-  });
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/democratic-content" element={<Dashboard />} />
-          <Route path="/schools" element={<Dashboard />} />
-          <Route path="/report-injustice" element={<Dashboard />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div>
+          <ResponsiveNavbar>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <RequireNoAuth>
+                    <LandingPage />
+                  </RequireNoAuth>
+                }
+              />
+              <Route
+                path="/home"
+                element={
+                  <RequireAuth>
+                    <HomePage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/democratic-content"
+                element={
+                  <RequireAuth>
+                    <DemocraticContent />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/schools"
+                element={
+                  <RequireAuth>
+                    <HomePage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/report-injustice"
+                element={
+                  <RequireAuth>
+                    <ReportInjustice />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <RequireNoAuth>
+                    <Login />
+                  </RequireNoAuth>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <RequireNoAuth>
+                    <Signup />
+                  </RequireNoAuth>
+                }
+              />
+            </Routes>
+          </ResponsiveNavbar>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
