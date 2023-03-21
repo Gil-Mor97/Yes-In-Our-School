@@ -15,6 +15,7 @@ import "./App.css";
 import LandingPage from "./components/pages/lp/LandingPage";
 import ReportInjustice from "./components/pages/report-injustice/ReportInjustice";
 import DemocraticContent from "./components/pages/democratic-content/DemocraticContent";
+import SchoolWhatsapp from "./components/pages/SchoolWhatsapp/SchoolWhatsapp"
 
 function RequireAuth({ children }) {
   const user = useContext(AuthContext);
@@ -60,10 +61,10 @@ function AppRouter() {
                 }
               />
               <Route
-                path="/schools"
+                path="/Schools"
                 element={
                   <RequireAuth>
-                    <HomePage />
+                    <SchoolWhatsapp />
                   </RequireAuth>
                 }
               />
