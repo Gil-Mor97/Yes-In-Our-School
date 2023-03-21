@@ -62,12 +62,26 @@ const localization = {
   languageHE: "עברית",
   video: "סרטון",
   movie: "סרט",
+  short_movie: "סרט קצר",
   lesson: "מערך שיעור",
   activity: "פעילות",
+  research: "מחקר",
   presentation: "מצגת",
+  lesson_plans: "מערכי שיעור",
+  trainings: "הדרכות",
+  courses: "קורסים",
+  podcast: "פודקאסט",
+  events: "אירועים",
+  lectures: "הרצאות",
+  document: "מסמך",
+  documents: "מסמכים",
+  speakers: "דוברים",
+  guides: "מדריכים",
+  texts: "טקסט",
   info_source: "מקור מידע",
   keywords: "חיפוש לפי מילות מפתח",
   search: "חיפוש",
+  conventions: "כנסים",
 };
 
 function DateContentInput(props: {
@@ -130,22 +144,27 @@ function SearchDetails(props) {
 
   async function searchPrograms(keyword: string) {
     const democraticContentRef = db.collection("Democratic_content");
+    // .where("Keywords", "array-contains", keyword)
     const democraticContentDocs = (
       await democraticContentRef
-        .where("Keywords", ">=", keyword.toLocaleLowerCase())
-        .where("Keywords", "<=", keyword.toLocaleLowerCase() + "~")
-        .orderBy("Keywords", "asc")
+        .orderBy("Name")
+        // .startAt(keyword)
+        // .endAt(keyword + "\uf8ff")
         .get()
     ).docs;
     console.log("democraticContentDocs", democraticContentDocs);
     setResults(
-      democraticContentDocs.map((x) => {
-        const cont: IDemocraticContent = {
-          ...(x.data() as IDemocraticContent),
-          id: x.id,
-        };
-        return cont;
-      })
+      democraticContentDocs
+        .map((x) => {
+          const cont: IDemocraticContent = {
+            ...(x.data() as IDemocraticContent),
+            id: x.id,
+          };
+          return cont;
+        })
+        .filter((cont) =>
+          cont.Keywords?.toLowerCase().includes(keyword.toLowerCase())
+        )
     );
     console.log(results);
   }
@@ -157,7 +176,7 @@ function SearchDetails(props) {
       keywords,
     };
     console.log("payload", payload);
-    if (!keywords) return alert("נא להזין מילת מפתח");
+    // if (!keywords) return alert("נא להזין מילת מפתח");
     searchPrograms(keywords);
   }
 
@@ -166,13 +185,18 @@ function SearchDetails(props) {
       <Card key={"card_" + index} sx={{ minWidth: 275 }}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {localization[result.Content_type]}
+            {result.Content_type.split(",")
+              .map((x) => localization[x] ?? x)
+              .join(",")}
           </Typography>
-          <Typography variant="h5" component="div"></Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          <Typography variant="h5" sx={{ mb: 1.5 }} color="text.secondary">
             {result.Name}
           </Typography>
-          <Typography variant="body2">{result.Description}</Typography>
+          <Typography sx={{ mb: 2.5 }} variant="body2">
+            {result.Description}
+          </Typography>
+          <Typography variant="h6">מילות מפתח:</Typography>
+          <Typography variant="body2">{result.Keywords}</Typography>
         </CardContent>
         <CardActions>
           <Button href={result.Link} size="small">
@@ -232,7 +256,12 @@ function SearchDetails(props) {
             label={localization.keywords}
           />{" "}
         </FormControl>
-        <Button color="secondary" variant="outlined" onClick={() => submit()}>
+        <Button
+          type="submit"
+          color="secondary"
+          variant="outlined"
+          onClick={() => submit()}
+        >
           {localization.search}
         </Button>
       </FormGroup>
